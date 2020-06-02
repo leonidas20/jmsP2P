@@ -38,6 +38,8 @@ public class EligibilityCheckListener implements MessageListener {
 			System.out.println("Insurance Provider:" + insuranceProvider);
 			
 			if (insuranceProvider.equals("Blue Cross Blue Shield") || insuranceProvider.equals("United Health") ) {
+				System.out.println("Patients Copay is: " + patient.getCopay());
+				System.out.println("Amount to be paid: " +patient.getAmoutToBePayed());
 				if (patient.getCopay()<40 && patient.getAmoutToBePayed()<1000) {
 					replyMessage.setBoolean("eligible", true);
 				} else {
