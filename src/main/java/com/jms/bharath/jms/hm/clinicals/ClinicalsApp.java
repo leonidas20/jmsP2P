@@ -1,8 +1,11 @@
 package com.jms.bharath.jms.hm.clinicals;
 
+import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.JMSProducer;
+import javax.jms.MapMessage;
+import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.naming.InitialContext;
@@ -18,6 +21,8 @@ public class ClinicalsApp {
 
 		InitialContext initialContext = new InitialContext();
 		Queue requestQueue = (Queue) initialContext.lookup("queue/requestQueue");
+		Queue replyQueue = (Queue) initialContext.lookup("queue/replyQueue");
+
 		
 		try(ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory();
 				JMSContext jmsContext = cf.createContext();) {
@@ -29,13 +34,20 @@ public class ClinicalsApp {
 			patient.setId(123);
 			patient.setName("Bob");
 			patient.setInsuranceProvider("Blue Cross Blue Shield");
-			patient.setCopay(30d);
+			patient.setCopay(100d);
 			patient.setAmoutToBePayed(500d);
 			
 			objectMessage.setObject(patient);
 			
-			producer.send(requestQueue, objectMessage);
+			for (int i=1;i<=10;i++) {
+				producer.send(requestQueue, objectMessage);
+				
+			}
 			
+			
+//			JMSConsumer consumer = jmsContext.createConsumer(replyQueue);
+//			MapMessage replyMessage = (MapMessage) consumer.receive(30000);
+//			System.out.println("Patient eligibility is:" + replyMessage.getBoolean("eligible"));
 		}
 		
 	}
