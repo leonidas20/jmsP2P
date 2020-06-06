@@ -25,7 +25,7 @@ public class ClinicalsApp {
 
 		
 		try(ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory();
-				JMSContext jmsContext = cf.createContext();) {
+				JMSContext jmsContext = cf.createContext("clinicaluser", "clinicalpass");) {
 			
 			JMSProducer producer = jmsContext.createProducer();
 			

@@ -22,7 +22,7 @@ public class EligibilityCheckerApp {
 		Queue requestQueue = (Queue) initialContext.lookup("queue/requestQueue");
 		
 		try(ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory();
-				JMSContext jmsContext = cf.createContext();) {
+				JMSContext jmsContext = cf.createContext("eligibilityuser", "eligibilitypass");) {
 			
 			JMSConsumer consumer1 = jmsContext.createConsumer(requestQueue);
 			JMSConsumer consumer2 = jmsContext.createConsumer(requestQueue);
@@ -31,13 +31,11 @@ public class EligibilityCheckerApp {
 			
 			for (int i=1;i<=10;i+=2) {
 				System.out.println("Consumer1: " + consumer1.receive());
-				System.out.println("Consumer1: " + consumer2.receive());
+				System.out.println("Consumer2: " + consumer2.receive());
 
 			}
 			
 //			Thread.sleep(10000);
-	
-			
 		}
 	}
 
